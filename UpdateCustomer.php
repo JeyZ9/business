@@ -101,19 +101,19 @@ try{
             require 'connect.php';
             
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE customer SET CustomerID = :customerID, Name = :Name, Birthdate = :birthdate, CountryCode = :countryCode, OutstandingDebt = :outstandingDebt WHERE CustomerID = :customerID";
+            $sql = "UPDATE customer SET CustomerID = :customerID, Name = :Name, Birthdate = :Birthdate,Email = :Email CountryCode = :CountryCode, OutstandingDebt = :OutstandingDebt WHERE CustomerID = :customerID";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':customerID', $_POST['CustomerID']);
             $stmt->bindParam(':Name', $_POST['Name']);
-            $stmt->bindParam(':birthdate', $_POST['date']);
-            // $stmt->bindParam(':email', $_POST['email']);
-            $stmt->bindParam(':countryCode', $_POST['countryCode']);
-            $stmt->bindParam(':outstandingDebt', $_POST['outstandingDebt']);
-            if ($stmt->execute()) :
+            $stmt->bindParam(':Birthdate', $_POST['date']);
+            $stmt->bindParam(':email', $_POST['email']);
+            $stmt->bindParam(':CountryCode', $_POST['countryCode']);
+            $stmt->bindParam(':OutstandingDebt', $_POST['outstandingDebt']);
+            if ($stmt->execute()){
                 $message = 'Suscessfully add new customer';
-            else :
+            }else{
                 $message = 'Fail to add new customer';
-            endif;
+            }
             echo $message;
             
             $conn = null;

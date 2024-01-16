@@ -44,7 +44,7 @@
     <div class="container">
         <h1>Add Customer</h1>
 
-        <form action="Index.php" method="POST" class='box-form'>
+        <form action="AddCutomer_dropdown_2.php" method="POST" class='box-form'>
             <div class="head">
                 <h2>Register</h2>
             </div>
@@ -57,27 +57,20 @@
                 <label for="Name">Enter Name</label>
                 <input type="text" placeholder="Wisarut" name='Name' id="Name" />
             </div>
-
-            <div class="box">
-                <label for="outstandingDebt">outstandingDebt</label>
-                <input type="number" placeholder="outstandingDebt" name='outstandingDebt' id="outstandingDebt" />
-            </div>
-
-            <div class="box">
-                <label for="email">Enter Email</label>
-                <input type="email" placeholder="example@gmail.com" name='email' id="email" />
-            </div>
             
             <div class="box">
-                <label for="date">Enter Date</label>
-                <input type="date" placeholder="mm/dd/yyyy" name='date' id="date" />
+                <label for="Birthdate">Enter Date</label>
+                <input type="date" placeholder="mm/dd/yyyy" name='Birthdate' id="date" />
             </div>
 
-            
+            <div class="box">
+                <label for="Email">Enter Email</label>
+                <input type="email" placeholder="example@gmail.com" name='Email' id="email" />
+            </div>
 
             <div class="box">
                 <label for="countryCode">Enter CountryCode</label>
-                <select name='countryCode' id="countryCode">
+                <select name='CountryCode' id="countryCode">
                     <?php while ($cc = $stmt_s->fetch(PDO::FETCH_ASSOC)){?>
                         <option value="<?php echo $cc['CountryCode'] ?>">
                             <?php echo $cc['CountryName'] ?>
@@ -85,6 +78,12 @@
                     <?php } ?>
                 </select>
             </div>
+            
+            <div class="box">
+                <label for="outstandingDebt">outstandingDebt</label>
+                <input type="number" placeholder="outstandingDebt" name='OutstandingDebt' id="outstandingDebt" />
+            </div>
+
 
             <div class="box-btn">
                 <button type="submit" name="submit">Sumit</button>
@@ -103,19 +102,19 @@ try{
             require 'connect.php';
             
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "insert into customer values(:customerID, :Name,:email, :birthdate, :countryCode, :outstandingDebt)";
+            $sql = "insert into customer values(:CustomerID, :Name, :Birthdate, :Email, :CountryCode, :OutstandingDebt)";
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':customerID', $_POST['CustomerID']);
+            $stmt->bindParam(':CustomerID', $_POST['CustomerID']);
             $stmt->bindParam(':Name', $_POST['Name']);
-            $stmt->bindParam(':birthdate', $_POST['date']);
-            $stmt->bindParam(':email', $_POST['email']);
-            $stmt->bindParam(':countryCode', $_POST['countryCode']);
-            $stmt->bindParam(':outstandingDebt', $_POST['outstandingDebt']);
-            if ($stmt->execute()) :
+            $stmt->bindParam(':Birthdate', $_POST['Birthdate']);
+            $stmt->bindParam(':Email', $_POST['Email']);
+            $stmt->bindParam(':CountryCode', $_POST['CountryCode']);
+            $stmt->bindParam(':OutstandingDebt', $_POST['OutstandingDebt']);
+            if ($stmt->execute()){
                 $message = 'Suscessfully add new customer';
-            else :
+            }else{
                 $message = 'Fail to add new customer';
-            endif;
+            }
             echo $message;
             
             $conn = null;
