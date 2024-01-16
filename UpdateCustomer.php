@@ -42,16 +42,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Add Customer</h1>
+        <h1>Edit</h1>
+        
+        <form action="index.php" method="POST" class='box-form'>
 
-        <form action="UpdateCustomer.php" method="POST" class='box-form'>
-            <div class="head">
-                <h2>Register</h2>
-            </div>
-            <div class="box">
+            <input type="hidden" name="customerID" value="<?= $_GET['CustomerID'] ?>" />
+            
+            <!-- <div class="box">
                 <label for="customerID">Enter ID</label>
                 <input type="text" placeholder="Cus000" name='CustomerID' id="customerID" />
-            </div>
+            </div> -->
 
             <div class="box">
                 <label for="Name">Enter Name</label>
@@ -59,22 +59,14 @@
             </div>
 
             <div class="box">
-                <label for="outstandingDebt">outstandingDebt</label>
-                <input type="number" placeholder="outstandingDebt" name='outstandingDebt' id="outstandingDebt" />
-            </div>
-<!-- 
-            <div class="box">
-                <label for="email">Enter Email</label>
-                <input type="email" placeholder="example@gmail.com" name='email' id="email" />
-            </div> -->
-            
-            <div class="box">
                 <label for="date">Enter Date</label>
                 <input type="date" placeholder="mm/dd/yyyy" name='date' id="date" />
             </div>
-
             
-
+            <div class="box">
+                <label for="email">Enter Email</label>
+                <input type="email" placeholder="example@gmail.com" name='email' id="email" />
+            </div>
             <div class="box">
                 <label for="countryCode">Enter CountryCode</label>
                 <select name='countryCode' id="countryCode">
@@ -85,6 +77,12 @@
                     <?php } ?>
                 </select>
             </div>
+            
+            <div class="box">
+                <label for="outstandingDebt">outstandingDebt</label>
+                <input type="number" placeholder="outstandingDebt" name='outstandingDebt' id="outstandingDebt" />
+            </div>
+
 
             <div class="box-btn">
                 <button type="submit" name="submit">Sumit</button>

@@ -44,7 +44,7 @@
     <div class="container">
         <h1>Add Customer</h1>
 
-        <form action="AddCustomer_dropdown.php" method="POST" class='box-form'>
+        <form action="Index.php" method="POST" class='box-form'>
             <div class="head">
                 <h2>Register</h2>
             </div>
@@ -62,11 +62,11 @@
                 <label for="outstandingDebt">outstandingDebt</label>
                 <input type="number" placeholder="outstandingDebt" name='outstandingDebt' id="outstandingDebt" />
             </div>
-<!-- 
+
             <div class="box">
                 <label for="email">Enter Email</label>
                 <input type="email" placeholder="example@gmail.com" name='email' id="email" />
-            </div> -->
+            </div>
             
             <div class="box">
                 <label for="date">Enter Date</label>
@@ -103,12 +103,12 @@ try{
             require 'connect.php';
             
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "insert into customer values(:customerID, :Name, :birthdate, :countryCode, :outstandingDebt)";
+            $sql = "insert into customer values(:customerID, :Name,:email, :birthdate, :countryCode, :outstandingDebt)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':customerID', $_POST['CustomerID']);
             $stmt->bindParam(':Name', $_POST['Name']);
             $stmt->bindParam(':birthdate', $_POST['date']);
-            // $stmt->bindParam(':email', $_POST['email']);
+            $stmt->bindParam(':email', $_POST['email']);
             $stmt->bindParam(':countryCode', $_POST['countryCode']);
             $stmt->bindParam(':outstandingDebt', $_POST['outstandingDebt']);
             if ($stmt->execute()) :

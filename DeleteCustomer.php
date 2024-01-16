@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        td{
+            margin: auto;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,12 +21,10 @@
         throw new Exception($e->getMessage());
     }
 
-    $sql = 'SELECT *, country.CountryName from customer INNER JOIN country on customer.CountryCode = country.CountryCode';
+    $sql = 'select * from customer';
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 ?>
-
-
 
 <table>
     <tr>
@@ -29,7 +33,6 @@
         <th>วันเกิด</th>
         <th>อีเมล</th>
         <th>ประเทศ</th>
-        <th>ยอดหนี้</th>
     </tr>
 
     <?php
@@ -37,21 +40,16 @@
     ?>
     <tr>
         <td>
-            <a href="Detail.php?CustomerID=<?php echo $result["CustomerID"];?>">
+            <a onclick="return confirm('ยืนยันข้อมูล')" href="DeleteDetail.php?CustomerID=<?php echo $result['CustomerID'] ?>">
                 <?php echo $result["CustomerID"];?>
             </a> 
         </td>
         <td><?php echo $result["Name"];?></td>
         <td><?php echo $result["Birthdate"];?></td>
         <td><?php echo $result["Email"];?></td>
-        <td><?php echo $result["CountryName"];?></td>
-        <td><?php echo $result["OutstandingDebt"];?></td>
-        <td>
-            <a href="UpdateCustomer.php?CustomerID=<?php echo $result["CustomerID"];?>">Edit</a>
-        </td>
+        <td style="text-align: center;"><?php echo $result["CountryCode"];?></td>
     </tr>
     <?php } ?>
 </table>
-    
 </body>
 </html>
