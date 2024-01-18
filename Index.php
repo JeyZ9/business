@@ -23,6 +23,7 @@
                             <th width="25%">อีเมล์</th>
                             <th width="10%">ประเทศ</th>
                             <th width="10%">ยอดหนี้</th>
+                            <th width="10%">รูปภาพ</th>
                             <th width="5%">แก้ไข</th>
                             <th width="5%">ลบ</th>
                         </tr>
@@ -43,6 +44,7 @@
                                 <td><?= $r['Email'] ?></td>
                                 <td><?= $r['CountryName'] ?></td>
                                 <td><?= $r['OutstandingDebt'] ?></td>
+                                <td><img style="width: 40px;" src="./Image/<?= $r['Image'] ?>" /></td>
                                 <td><a href="UpdateCustomer.php?CustomerID=<?= $r["CustomerID"];?>" class="btn btn-warning btn-sm">แก้ไข</a></td>
                                 <td><a href="DeleteDetail.php?CustomerID=<?= $r['CustomerID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('ยืนยันการลบข้อมูล !!');">ลบ</a></td>
                             </tr>

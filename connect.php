@@ -2,7 +2,7 @@
 $serverName = 'localhost';
 $userName = 'root';
 $userPassword = ''; //Lab room 408 or 409 - 12345678
-$dbname = 'business';
+$dbname = 'business_image';
 
 try {
     $conn = new PDO(

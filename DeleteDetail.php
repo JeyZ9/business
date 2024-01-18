@@ -23,7 +23,7 @@
     $params = array($strCustomerID);
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    // $result = $stmt->fetch(PDO::FETCH_ASSOC);
     echo 'delete success!'
 ?>
 </body>

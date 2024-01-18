@@ -1,11 +1,3 @@
-<?php
-    require 'connect.php';
-
-    $spl_select = "select * from country ORDER BY CountryCode";
-    $stmt_s = $conn->prepare($spl_select);
-    $stmt_s->execute();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,10 +33,80 @@
     </style>
 </head>
 <body>
+
+<?php
+    require 'connect.php';
+
+    $spl_select = "select * from country ORDER BY CountryCode";
+    $stmt_s = $conn->prepare($spl_select);
+    $stmt_s->execute();
+
+    if(isset($_POST['submit'])){
+    
+        // if(isset($_POST["CustomerID"]) && $_POST["Name"]):
+            
+            if(!empty($_POST['CustomerID']) && !empty($_POST['Name'])){
+            $uploadFile = $_FILES['Image']['name'];
+            $tmpFile = $_FILES['Image']['tmp_name'];
+            echo " upload file = " . $uploadFile;
+            echo " tmp file = " . $tmpFile;
+            
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // $sql = "insert into customer values(:CustomerID, :Name, :Birthdate, :Email, :CountryCode, :OutstandingDebt, :Image)";
+            $sql = "INSERT INTO customer VALUES (:CustomerID, :Name, :Birthdate, :Email, :CountryCode, :OutstandingDebt, :Image)";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':CustomerID', $_POST['CustomerID']);
+            $stmt->bindParam(':Name', $_POST['Name']);
+            $stmt->bindParam(':Birthdate', $_POST['Birthdate']);
+            $stmt->bindParam(':Email', $_POST['Email']);
+            $stmt->bindParam(':CountryCode', $_POST['CountryCode']);
+            $stmt->bindParam(':OutstandingDebt', $_POST['OutstandingDebt']);
+            $stmt->bindParam(':Image', $uploadFile);
+
+            $fullpath = './Image/' . $uploadFile;
+            echo " fullpath = " . $fullpath;
+            move_uploaded_file($tmpFile, $fullpath);
+            echo '
+                <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">';
+
+            try{
+
+                if($stmt->execute()){
+                    echo '
+                    <script type="text/javascript">        
+                    $(document).ready(function(){
+                
+                        swal({
+                            title: "Success!",
+                            text: "Successfuly add customer",
+                            type: "success",
+                            timer: 2500,
+                            showConfirmButton: false
+                        }, function(){
+                                window.location.href = "index.php";
+                        });
+                    });                    
+                    </script>
+                ';
+                }else{
+                    $message = 'Fail to add new customer';
+                }
+                
+            }catch(PDOException $e){
+                echo ("fail". $e);
+            }
+                $conn = null;
+        }
+    }
+?>
+
     <div class="container">
         <h1>Add Customer</h1>
 
-        <form action="AddCutomer_dropdown_2.php" method="POST" class='box-form'>
+        <form action="AddCutomer_dropdown_2.php" method="POST" class='box-form' enctype="multipart/form-data">
             <div class="head">
                 <h2>Register</h2>
             </div>
@@ -84,43 +146,23 @@
                 <input type="number" placeholder="outstandingDebt" name='OutstandingDebt' id="outstandingDebt" />
             </div>
 
+            <div class="box">
+                <label for="image">Image</label>
+                <input type="file" placeholder="image" name='Image' id="image" required />
+            </div>
+
 
             <div class="box-btn">
                 <button type="submit" name="submit">Sumit</button>
             </div>
         </form>
     </div>
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#customerTable').DataTable();
+        });
+    </script>
 </body>
 </html>
-
-<?php
-try{
-    if(isset($_POST['submit'])){
-    
-        // if(isset($_POST["CustomerID"]) && $_POST["Name"]):
-        if(!empty($_POST['CustomerID']) && !empty($_POST['Name'])):
-            require 'connect.php';
-            
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "insert into customer values(:CustomerID, :Name, :Birthdate, :Email, :CountryCode, :OutstandingDebt)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':CustomerID', $_POST['CustomerID']);
-            $stmt->bindParam(':Name', $_POST['Name']);
-            $stmt->bindParam(':Birthdate', $_POST['Birthdate']);
-            $stmt->bindParam(':Email', $_POST['Email']);
-            $stmt->bindParam(':CountryCode', $_POST['CountryCode']);
-            $stmt->bindParam(':OutstandingDebt', $_POST['OutstandingDebt']);
-            if ($stmt->execute()){
-                $message = 'Suscessfully add new customer';
-            }else{
-                $message = 'Fail to add new customer';
-            }
-            echo $message;
-            
-            $conn = null;
-        endif;
-    }
-}catch(PDOException $e) {
-    $message = ''.$e->getMessage();
-}
-?>
